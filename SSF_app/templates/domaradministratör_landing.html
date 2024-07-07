@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domaradmin Landing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .left-column, .right-column {
+            flex: 1;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+        }
+        .left-column {
+            max-width: 500px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .form-container {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .clickable-row {
+            cursor: pointer;
+        }
+        .clickable-row:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-column">
+            <h1>Välkommen, Domaradmin</h1>
+            <div class="form-container">
+                <h2>Hantera Domarlicenser</h2>
+                <form id="create-license-form">
+                    <div class="form-group">
+                        <label for="person">Person:</label>
+                        <select id="person" name="person_id" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="referee_license_nr">Licensnummer:</label>
+                        <input type="text" id="referee_license_nr" name="referee_license_nr" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="authority">Authority:</label>
+                        <input type="text" id="authority" name="authority" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="referee_category">Kategori:</label>
+                        <select id="referee_category" name="referee_category" required>
+                            <option value="distriksdomare">Distriksdomare</option>
+                            <option value="förbundsdomare">Förbundsdomare</option>
+                            <option value="internationell domare kat 1">Internationell domare kat 1</option>
+                            <option value="internationell domare kat 2">Internationell domare kat 2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select id="status" name="status" required>
+                            <option value="active">Active</option>
+                            <option value="non-active">Non-active</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="requested">Requested Date:</label>
+                        <input type="date" id="requested" name="requested" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="terminates">Termination Date:</label>
+                        <input type="date" id="terminates" name="terminates">
+                    </div>
+                    <div class="form-group">
+                        <label for="activated_date">Activation Date:</label>
+                        <input type="date" id="activated_date" name="activated_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="paid">Paid:</label>
+                        <input type="checkbox" id="paid" name="paid">
+                    </div>
+                    <div class="form-group">
+                        <label for="club">Club:</label>
+                        <select id="club" name="club_id" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="club_membership_date">Club Membership Date:</label>
+                        <input type="date" id="club_membership_date" name="club_membership_date">
+                    </div>
+                    <button type="submit" class="button">Create/Activate License</button>
+                </form>
+            </div>
+            <div class="form-container">
+                <h2>Uppdatera Kategori</h2>
+                <form id="update-category-form">
+                    <div class="form-group">
+                        <label for="referee_id">ID:</label>
+                        <input type="text" id="referee_id" name="referee_id" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_category">Ny Kategori:</label>
+                        <select id="new_category" name="new_category" required>
+                            <option value="distriksdomare">Distriksdomare</option>
+                            <option value="förbundsdomare">Förbundsdomare</option>
+                            <option value="internationell domare kat 1">Internationell domare kat 1</option>
+                            <option value="internationell domare kat 2">Internationell domare kat 2</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="button">Uppdatera Kategori</button>
+                </form>
+            </div>
+            <div class="form-container">
+                <h2>Uppdatera Kontaktuppgifter</h2>
+                <form id="update-contact-form">
+                    <div class="form-group">
+                        <label for="person_id_contact">Person:</label>
+                        <select id="person_id_contact" name="person_id_contact" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_email">Ny E-post:</label>
+                        <input type="email" id="new_email" name="new_email" required>
+                    </div>
+                    <button type="submit" class="button">Uppdatera Kontaktuppgifter</button>
+                </form>
+            </div>
+        </div>
+        <div class="right-column">
+            <h2>Aktuella Domare</h2>
+            <table id="referee-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Licensnummer</th>
+                        <th>Förnamn</th>
+                        <th>Efternamn</th>
+                        <th>Kategori</th>
+                        <th>Utförda Uppdrag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Referee data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchRefereeList();
+            fetchPersonList();
+            fetchClubList();
+
+            document.getElementById('create-license-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(event.target);
+                const data = Object.fromEntries(formData.entries());
+                data.paid = document.getElementById('paid').checked;  // Add the 'paid' checkbox value
+
+                fetch('http://127.0.0.1:8000/api/api_community/refereelicenses/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('License created/activated successfully!');
+                    fetchRefereeList();  // Refresh the referee list
+                })
+                .catch(error => {
+                    alert('Error creating/activating license!');
+                    console.error('Error:', error);
+                });
+            });
+
+            document.getElementById('update-category-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(event.target);
+                const data = Object.fromEntries(formData.entries());
+
+                fetch(`http://127.0.0.1:8000/api/api_community/refereelicenses/${data.referee_id}/`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ referee_category: data.new_category })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Category updated successfully!');
+                    fetchRefereeList();  // Refresh the referee list
+                })
+                .catch(error => {
+                    alert('Error updating category!');
+                    console.error('Error:', error);
+                });
+            });
+
+            document.getElementById('update-contact-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(event.target);
+                const data = Object.fromEntries(formData.entries());
+
+                fetch(`http://127.0.0.1:8000/api/api_community/persons/${data.person_id_contact}/`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ email: data.new_email })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Contact information updated successfully!');
+                    fetchRefereeList();  // Refresh the referee list
+                })
+                .catch(error => {
+                    alert('Error updating contact information!');
+                    console.error('Error:', error);
+                });
+            });
+        });
+
+        function fetchRefereeList() {
+            fetch('http://127.0.0.1:8000/api/api_community/refereelicenses/')
+            .then(response => response.json())
+            .then(data => {
+                const refereeTableBody = document.querySelector('#referee-table tbody');
+                refereeTableBody.innerHTML = '';
+                data.forEach(referee => {
+                    const row = document.createElement('tr');
+                    row.classList.add('clickable-row');
+                    row.dataset.id = referee.id;
+                    row.innerHTML = `
+                        <td>${referee.id}</td>
+                        <td>${referee.referee_license_nr}</td>
+                        <td>${referee.person.first_name}</td>
+                        <td>${referee.person.last_name}</td>
+                        <td>${referee.referee_category}</td>
+                        <td>${referee.number_of_missions}</td>
+                    `;
+                    row.addEventListener('click', () => fillUpdateForm(referee));
+                    refereeTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching referee list:', error);
+            });
+        }
+
+        function fillUpdateForm(referee) {
+            document.getElementById('referee_id').value = referee.id;
+            document.getElementById('new_category').value = referee.referee_category;
+        }
+
+        function fetchPersonList() {
+            fetch('http://127.0.0.1:8000/api/api_community/persons/')
+            .then(response => response.json())
+            .then(data => {
+                const personSelect = document.getElementById('person');
+                const personContactSelect = document.getElementById('person_id_contact');
+                personSelect.innerHTML = '';
+                personContactSelect.innerHTML = '';
+                data.forEach(person => {
+                    const option = document.createElement('option');
+                    option.value = person.person_id;  // Use person_id as value
+                    option.textContent = `${person.first_name} ${person.last_name}`;
+                    personSelect.appendChild(option);
+                    personContactSelect.appendChild(option.cloneNode(true));
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching person list:', error);
+            });
+        }
+
+        function fetchClubList() {
+            fetch('http://127.0.0.1:8000/api/api_community/clubs/')
+            .then(response => response.json())
+            .then(data => {
+                const clubSelect = document.getElementById('club');
+                clubSelect.innerHTML = '';
+                data.forEach(club => {
+                    const option = document.createElement('option');
+                    option.value = club.club_nr;  // Use club_nr as value
+                    option.textContent = club.name;
+                    clubSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching club list:', error);
+            });
+        }
+    </script>
+</body>
+</html>
